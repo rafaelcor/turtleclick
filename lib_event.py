@@ -17,6 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
+#Andres Aguirre <aaguirre@fing.edu.uy>
+#Rafael Cordano <rafael.cordano@gmail.com>
+
 from Xlib import X, display, ext, xobject
 from Xlib.ext import record, xtest, shape, xinerama
 from Xlib.xobject import colormap, drawable
@@ -74,7 +77,7 @@ def createAbsoluteMouseEvent(x,y):
     (xx, yy) = wwin.get_position()
     data = win.get_geometry()
     height = data.height
-    #win.warp_pointer(x - 2, y)
+    win.warp_pointer(x, y)
     wwin.move(x, yy)
     wwin.set_keep_above(True);
     dis.sync()
@@ -101,9 +104,9 @@ def buttonRelease(button):
 
 def clickButton(button):
     x,y = getMousePosition()
-    win.warp_pointer(x - 2, y)
-    #wwin.set_keep_above(False)
-    #wwin.set_keep_below(True)
+    win.warp_pointer(x - 20, y)
+    wwin.set_keep_above(False)
+    wwin.set_keep_below(True)
 
     d = display.Display()
 	#press button 1, for middle mouse button use 2, for opposite button use 3
