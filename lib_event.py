@@ -74,7 +74,7 @@ def createAbsoluteMouseEvent(x,y):
     (xx, yy) = wwin.get_position()
     data = win.get_geometry()
     height = data.height
-    win.warp_pointer(x,y)
+    #win.warp_pointer(x - 2, y)
     wwin.move(x, yy)
     wwin.set_keep_above(True);
     dis.sync()
@@ -100,13 +100,24 @@ def buttonRelease(button):
 	d.sync()
 
 def clickButton(button):
-	d = display.Display()
+    x,y = getMousePosition()
+    win.warp_pointer(x - 2, y)
+    #wwin.set_keep_above(False)
+    #wwin.set_keep_below(True)
+
+    d = display.Display()
 	#press button 1, for middle mouse button use 2, for opposite button use 3
-	ext.xtest.fake_input(d,X.ButtonPress,button)
-	d.sync()
-	#to make click we need to release the same button
-	ext.xtest.fake_input(d, X.ButtonRelease,button)
-	d.sync()
+    ext.xtest.fake_input(d,X.ButtonPress,button)
+    d.sync()
+    #to make click we need to release the same button
+    ext.xtest.fake_input(d, X.ButtonRelease,button)
+    d.sync()
+
+    ext.xtest.fake_input(d,X.ButtonPress,button)
+    d.sync()
+
+    ext.xtest.fake_input(d,X.ButtonRelease,button)
+    d.sync()
 
 def pressButton(button):
 	d = display.Display()
