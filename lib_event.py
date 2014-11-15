@@ -103,6 +103,7 @@ def buttonRelease(button):
 	d.sync()
 
 def clickButton(button):
+    
     x,y = getMousePosition()
     win.warp_pointer(x - 20, y)
     wwin.set_keep_above(False)
@@ -110,6 +111,7 @@ def clickButton(button):
 
     d = display.Display()
 	#press button 1, for middle mouse button use 2, for opposite button use 3
+    wwin.destroy()
     ext.xtest.fake_input(d,X.ButtonPress,button)
     d.sync()
     #to make click we need to release the same button
@@ -121,8 +123,11 @@ def clickButton(button):
 
     ext.xtest.fake_input(d,X.ButtonRelease,button)
     d.sync()
+    
 
 def pressButton(button):
+	#wwin.destroy()
+	print "hello"
 	d = display.Display()
 	#press button 1, for middle mouse button use 2, for opposite button use 3
 	ext.xtest.fake_input(d,X.ButtonPress,button)
