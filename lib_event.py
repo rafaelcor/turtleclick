@@ -48,6 +48,13 @@ def setLineWidth(width):
     print width
     wwin.set_size_request(int(width), wwin.get_screen().get_height())
     print wwin.get_size_request()
+
+def setLineHeight(height):
+    w, h = wwin.get_size()
+    print "height:%s" % height
+    wwin.set_size_request(wwin.get_screen().get_width(), int(height))
+    print wwin.get_size_request()
+
 def showLine(active):
     if active:
         wwin.show()

@@ -58,6 +58,7 @@ class X_events(Plugin):
                               style='basic-style-2arg',
                               label=_('setXY'),
                               value_block=True,
+                              default=[0,0],
                               help_string=\
                                   _('set the mouse pointer to x y coordinates'),
                               prim_name='setX11mouse')
@@ -80,6 +81,7 @@ class X_events(Plugin):
                               style='basic-style-1arg',
                               label=_('click'),
                               value_block=True,
+                              default=[1],
                               help_string=\
                                   _('simulate a mouse click'),
                               prim_name='click')
@@ -102,6 +104,7 @@ class X_events(Plugin):
                               style='basic-style-1arg',
                               label=_('pressButton'),
                               value_block=True,
+                              default=[0],
                               help_string=\
                                   _('keeps button pressed'),
                               prim_name='pressButton')
@@ -110,6 +113,7 @@ class X_events(Plugin):
                               style='basic-style-1arg',
                               label=_('releaseButton'),
                               value_block=True,
+                              default=[0],
                               help_string=\
                                   _('releases button'),
                               prim_name='releaseButton')
@@ -118,6 +122,7 @@ class X_events(Plugin):
                               style='basic-style-3arg',
                               label=_('setLineColor'),
                               value_block=True,
+                              default=[0,0,0],
                               help_string=\
                                   _('set line color'),
                               prim_name='setLineColor')
@@ -126,6 +131,7 @@ class X_events(Plugin):
                               style='basic-style-1arg',
                               label=_('showLine'),
                               value_block=True,
+                              default=[1],
                               help_string=\
                                   _('show vertical line over mouse'),
                               prim_name='showLine')
@@ -134,9 +140,19 @@ class X_events(Plugin):
                               style='basic-style-1arg',
                               label=_('setLineWidth'),
                               value_block=True,
+                              default=[0],
                               help_string=\
                                   _('width of vertical line over mouse'),
                               prim_name='setLineWidth')
+	
+	palette.add_block('setLineHeight',
+                              style='basic-style-1arg',
+                              label=_('setLineHeight'),
+                              value_block=True,
+                              default=[0],
+                              help_string=\
+                                  _('height of vertical line over mouse'),
+                              prim_name='setLineHeight')
 
 
         self._parent.lc.def_prim(
@@ -172,6 +188,9 @@ class X_events(Plugin):
         self._parent.lc.def_prim(
             'setLineWidth', 1,
             Primitive(self.setLineWidth, arg_descs=[ArgSlot(TYPE_NUMBER)]))
+	self._parent.lc.def_prim(
+            'setLineHeight', 1,
+            Primitive(self.setLineHeight, arg_descs=[ArgSlot(TYPE_NUMBER)]))
 
     # Block primitives
 
@@ -211,6 +230,9 @@ class X_events(Plugin):
 
     def setLineWidth(self,width):
         lib_event.setLineWidth(width)
+    
+    def setLineHeight(self,height):
+        lib_event.setLineHeight(height)
 """
     def debouncing(self,button):
         x = lib_event.debouncing(button)
