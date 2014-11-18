@@ -70,6 +70,7 @@ class X_events(Plugin):
                               help_string=\
                                   _('get the mouse pointer x coordinate'),
                               prim_name='getX11mouseX')
+
         palette.add_block('getX11mouseY',
                               style='box-style',
                               label=_('getMouseY'),
@@ -77,6 +78,7 @@ class X_events(Plugin):
                               help_string=\
                                   _('get the mouse pointer y coordinate'),
                               prim_name='getX11mouseY')
+
         palette.add_block('click',
                               style='basic-style-1arg',
                               label=_('click'),
@@ -85,6 +87,7 @@ class X_events(Plugin):
                               help_string=\
                                   _('simulate a mouse click'),
                               prim_name='click')
+
         palette.add_block('getScreenWidth',
                               style='box-style',
                               label=_('getScreenWidth'),
@@ -92,6 +95,7 @@ class X_events(Plugin):
                               help_string=\
                                   _('get the screen width'),
                               prim_name='getScreenWidth')
+
         palette.add_block('getScreenHeight',
                               style='box-style',
                               label=_('getScreenHeight'),
@@ -127,6 +131,16 @@ class X_events(Plugin):
                                   _('set line color'),
                               prim_name='setLineColor')
 
+
+        palette.add_block('setLineOpacity',
+                              style='basic-style-1arg',
+                              label=_('setLineOpacity'),
+                              value_block=True,
+                              default=[1],
+                              help_string=\
+                                  _('set line opacity'),
+                              prim_name='setLineOpacity')
+
         palette.add_block('showLine',
                               style='basic-style-1arg',
                               label=_('showLine'),
@@ -144,8 +158,8 @@ class X_events(Plugin):
                               help_string=\
                                   _('width of vertical line over mouse'),
                               prim_name='setLineWidth')
-	
-	palette.add_block('setLineHeight',
+
+        palette.add_block('setLineHeight',
                               style='basic-style-1arg',
                               label=_('setLineHeight'),
                               value_block=True,
@@ -157,7 +171,8 @@ class X_events(Plugin):
 
         self._parent.lc.def_prim(
             'setX11mouse', 2,
-            Primitive(self.setX11mouse, arg_descs=[ArgSlot(TYPE_NUMBER), ArgSlot(TYPE_NUMBER)]))
+            Primitive(self.setX11mouse, arg_descs=[ArgSlot(TYPE_NUMBER),
+                                                   ArgSlot(TYPE_NUMBER)]))
         self._parent.lc.def_prim(
             'getX11mouseX', 0,
             Primitive(self.getX11mouseX, TYPE_INT))
@@ -181,21 +196,28 @@ class X_events(Plugin):
             Primitive(self.releaseButton, arg_descs=[ArgSlot(TYPE_NUMBER)]))
         self._parent.lc.def_prim(
             'setLineColor', 3,
-            Primitive(self.setLineColor, arg_descs=[ArgSlot(TYPE_NUMBER), ArgSlot(TYPE_NUMBER), ArgSlot(TYPE_NUMBER)]))
+            Primitive(self.setLineColor, arg_descs=[ArgSlot(TYPE_NUMBER),
+                                                    ArgSlot(TYPE_NUMBER),
+                                                    ArgSlot(TYPE_NUMBER)]))
         self._parent.lc.def_prim(
             'showLine', 1,
             Primitive(self.showLine, arg_descs=[ArgSlot(TYPE_NUMBER)]))
         self._parent.lc.def_prim(
             'setLineWidth', 1,
             Primitive(self.setLineWidth, arg_descs=[ArgSlot(TYPE_NUMBER)]))
-	self._parent.lc.def_prim(
+
+
+        self._parent.lc.def_prim(
             'setLineHeight', 1,
             Primitive(self.setLineHeight, arg_descs=[ArgSlot(TYPE_NUMBER)]))
+        self._parent.lc.def_prim(
+            'setLineOpacity', 1,
+            Primitive(self.setLineOpacity, arg_descs=[ArgSlot(TYPE_NUMBER)]))
 
     # Block primitives
 
     def setX11mouse(self,x, y):
-        lib_event.createAbsoluteMouseEvent(int(x),int(y))        
+        lib_event.createAbsoluteMouseEvent(int(x),int(y))
 
     def getX11mouseX(self):
         x,y = lib_event.getMousePosition()
@@ -230,9 +252,12 @@ class X_events(Plugin):
 
     def setLineWidth(self,width):
         lib_event.setLineWidth(width)
-    
+
     def setLineHeight(self,height):
         lib_event.setLineHeight(height)
+    
+    def setLineOpacity(self, opacity):
+        lib_event.setLineOpacity(opacity)
 """
     def debouncing(self,button):
         x = lib_event.debouncing(button)

@@ -31,7 +31,8 @@ scr = dis.screen()
 win = scr.root
 xb, yb = False, False
 wwin = gtk.Window(gtk.WINDOW_POPUP)
-wwin.set_keep_above(True);
+wwin.set_keep_above(True)
+wwin.set_opacity(1)
 color = gtk.gdk.color_parse("#234fdb")
 wwin.modify_bg(gtk.STATE_NORMAL, color)
 wwin.set_decorated(False)
@@ -40,6 +41,11 @@ wwin.add_events(gtk.gdk.KEY_PRESS_MASK |
                gtk.gdk.BUTTON_PRESS_MASK |
                gtk.gdk.SCROLL_MASK
                )
+
+
+def setLineOpacity(opacity):
+    wwin.set_opacity(opacity)
+  
 
 def setLineWidth(width):
     w, h = wwin.get_size()
@@ -64,14 +70,18 @@ def showLine(active):
 
 def setLineColor(red, green, blue):
     global color
-    r = hex(red)
+    print red
+    print green
+    print blue
+    r = hex(int(red))
     rh = "%s" % r.split("x")[1]
-    g = hex(green)
+    g = hex(int(green))
     gh = "%s" % g.split("x")[1]
-    b = hex(blue)
+    b = hex(int(blue))
     bh = "%s" % b.split("x")[1]
     chex = "#%s%s%s"%(rh, gh, bh)
     color = gtk.gdk.color_parse(chex)
+    wwin.modify_bg(gtk.STATE_NORMAL, color)
 
 
 def createRelativeMouseEvent(deltaX, deltaY):
