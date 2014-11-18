@@ -1,8 +1,8 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
-# Andrés Aguirre Dorelo
+# Andrés Aguirre Dorelo<aaguirre@fing.edu.uy>
+# Rafael Carlos Cordano Ottati<rafael.cordano@gmail.com>
 # MINA/INCO/UDELAR
-# basic ax12 actuator control
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,9 +16,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
-#Andres Aguirre <aaguirre@fing.edu.uy>
-#Rafael Cordano <rafael.cordano@gmail.com>
 
 from Xlib import X, display, ext, xobject
 from Xlib.ext import record, xtest, shape, xinerama
@@ -49,8 +46,6 @@ def setLineOpacity(opacity):
 
 def setLineWidth(width):
     w, h = wwin.get_size()
-	#global lineWidth
-	#lineWidth = width
     print width
     wwin.set_size_request(int(width), wwin.get_screen().get_height())
     print wwin.get_size_request()
@@ -67,8 +62,23 @@ def showLine(active):
     else:
         wwin.hide()
 
+#### Trying to use color blocks
+def setLineColor(colorName):
+    colorsNames = {"red": "#E60026",
+                   "orange": "#E65F00",
+                   "yellow": "#FFE900",
+                   "green": "#009150",
+                   "cyan": "#009150",
+                   "blue": "#0070B8",
+                   "purple": "#7D2181",
+                   "white": "#FFFFFF",
+                   "black": "#000000"}
+    
+    color = gtk.gdk.color_parse(colorsNames[colorName])
+    wwin.modify_bg(gtk.STATE_NORMAL, color)
+####
 
-def setLineColor(red, green, blue):
+def setLineColorRGB(red, green, blue):
     global color
     print red
     print green
@@ -85,10 +95,10 @@ def setLineColor(red, green, blue):
 
 
 def createRelativeMouseEvent(deltaX, deltaY):
-	d = display.Display()
-	#move pointer to set relative location
-	d.warp_pointer(deltaX,deltaY)
-	d.sync()
+    d = display.Display()
+    #move pointer to set relative location
+    d.warp_pointer(deltaX,deltaY)
+    d.sync()
 
 def createAbsoluteMouseEvent(x,y):
     (xx, yy) = wwin.get_position()
@@ -100,24 +110,24 @@ def createAbsoluteMouseEvent(x,y):
     dis.sync()
 
 def getMousePosition():
-	d = display.Display()
-	data = d.screen().root.query_pointer()._data
-	return data['root_x'], data['root_y']
+    d = display.Display()
+    data = d.screen().root.query_pointer()._data
+    return data['root_x'], data['root_y']
 
 def getScreenResolution():
-	d = display.Display()
-	resolution = d.screen().root.get_geometry()
-	return resolution.width, resolution.height
+    d = display.Display()
+    resolution = d.screen().root.get_geometry()
+    return resolution.width, resolution.height
 
 def buttonPress(button):
-	d = display.Display()
-	ext.xtest.fake_input(d,X.ButtonPress,button)
-	d.sync()
+    d = display.Display()
+    ext.xtest.fake_input(d,X.ButtonPress,button)
+    d.sync()
 
 def buttonRelease(button):
-	d = display.Display()
-	ext.xtest.fake_input(d,X.ButtonRelease,button)
-	d.sync()
+    d = display.Display()
+    ext.xtest.fake_input(d,X.ButtonRelease,button)
+    d.sync()
 
 def clickButton(button):
     
@@ -127,7 +137,7 @@ def clickButton(button):
     wwin.set_keep_below(True)
 
     d = display.Display()
-	#press button 1, for middle mouse button use 2, for opposite button use 3
+    #press button 1, for middle mouse button use 2, for opposite button use 3
     wwin.destroy()
     ext.xtest.fake_input(d,X.ButtonPress,button)
     d.sync()
@@ -141,18 +151,16 @@ def clickButton(button):
     ext.xtest.fake_input(d,X.ButtonRelease,button)
     d.sync()
     
-
+####
 def pressButton(button):
-	#wwin.destroy()
-	print "hello"
-	d = display.Display()
-	#press button 1, for middle mouse button use 2, for opposite button use 3
-	ext.xtest.fake_input(d,X.ButtonPress,button)
-	d.sync()
+    d = display.Display()
+    #press button 1, for middle mouse button use 2, for opposite button use 3
+    ext.xtest.fake_input(d,X.ButtonPress,button)
+    d.sync()
 
 def releaseButton(button):
-	d = display.Display()
-	#to make click we need to release the same button
-	ext.xtest.fake_input(d, X.ButtonRelease,button)
-	d.sync()
-
+    d = display.Display()
+    #to make click we need to release the same button
+    ext.xtest.fake_input(d, X.ButtonRelease,button)
+    d.sync()
+####

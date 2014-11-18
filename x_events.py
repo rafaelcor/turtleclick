@@ -1,6 +1,8 @@
-#!/usr/bin/env python
+#! /usr/bin/env python
 # -*- coding: utf-8 -*-
-#Copyright (c) 2013 Andrés Aguirre
+# Andrés Aguirre Dorelo<aaguirre@fing.edu.uy>
+# Rafael Carlos Cordano Ottati<rafael.cordano@gmail.com>
+# MINA/INCO/UDELAR
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -37,7 +39,6 @@ import Xlib.ext.xtest
 import Xlib.ext.record
 import Xlib.ext.shape
 import Xlib.ext.xinerama
-
 
 
 class X_events(Plugin):
@@ -122,11 +123,18 @@ class X_events(Plugin):
                                   _('releases button'),
                               prim_name='releaseButton')
 
-        palette.add_block('setLineColor',
+        palette.add_block('setLineColorRGB',
                               style='basic-style-3arg',
-                              label=_('setLineColor'),
+                              label=_('setLineColorRGB'),
                               value_block=True,
                               default=[0,0,0],
+                              help_string=\
+                                  _('set line color from rgb value'),
+                              prim_name='setLineColorRGB')
+        palette.add_block('setLineColor',
+                              style='basic-style-1arg',
+                              label=_('setLineColor'),
+                              value_block=True,
                               help_string=\
                                   _('set line color'),
                               prim_name='setLineColor')
@@ -195,10 +203,16 @@ class X_events(Plugin):
             'releaseButton', 1,
             Primitive(self.releaseButton, arg_descs=[ArgSlot(TYPE_NUMBER)]))
         self._parent.lc.def_prim(
-            'setLineColor', 3,
-            Primitive(self.setLineColor, arg_descs=[ArgSlot(TYPE_NUMBER),
-                                                    ArgSlot(TYPE_NUMBER),
-                                                    ArgSlot(TYPE_NUMBER)]))
+            'setLineColor', 1,
+            Primitive(self.setLineColor, arg_descs=[ArgSlot(TYPE_STRING)]))
+            
+        self._parent.lc.def_prim(
+            'setLineColorRGB', 3,
+            Primitive(self.setLineColorRGB, arg_descs=[ArgSlot(TYPE_INT),
+                                                    ArgSlot(TYPE_INT),
+                                                    ArgSlot(TYPE_INT)]))
+            
+            
         self._parent.lc.def_prim(
             'showLine', 1,
             Primitive(self.showLine, arg_descs=[ArgSlot(TYPE_NUMBER)]))
@@ -243,9 +257,12 @@ class X_events(Plugin):
 
     def releaseButton(self,button):
         lib_event.releaseButton(button)
+        
+    def setLineColor(self, colorName):
+		lib_event.setLineColor(colorName)
 
-    def setLineColor(self,red,green,blue):
-        lib_event.setLineColor(red,green,blue)
+    def setLineColorRGB(self,red,green,blue):
+        lib_event.setLineColorRGB(red,green,blue)
 
     def showLine(self,active):
         lib_event.showLine(active)
@@ -258,7 +275,3 @@ class X_events(Plugin):
     
     def setLineOpacity(self, opacity):
         lib_event.setLineOpacity(opacity)
-"""
-    def debouncing(self,button):
-        x = lib_event.debouncing(button)
-"""
