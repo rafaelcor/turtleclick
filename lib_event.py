@@ -64,17 +64,18 @@ def showLine(active):
 
 #### Trying to use color blocks
 def setLineColor(colorName):
-    colorsNames = {"red": "#E60026",
-                   "orange": "#E65F00",
+    print colorName.get_number_name()
+    colorsNames = {"red": "#E61B00",
+                   "orange": "#FF9201",
                    "yellow": "#FFE900",
-                   "green": "#009150",
-                   "cyan": "#009150",
-                   "blue": "#0070B8",
-                   "purple": "#7D2181",
+                   "green": "#0FEF1E",
+                   "cyan": "#0EF5EE",
+                   "blue": "#0000FF",
+                   "purple": "#C61DCC",
                    "white": "#FFFFFF",
                    "black": "#000000"}
     
-    color = gtk.gdk.color_parse(colorsNames[colorName])
+    color = gtk.gdk.color_parse(colorsNames[colorName.get_number_name()])
     wwin.modify_bg(gtk.STATE_NORMAL, color)
 ####
 

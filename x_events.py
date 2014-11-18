@@ -28,7 +28,7 @@ from plugins.plugin import Plugin
 from TurtleArt.tapalette import make_palette
 from TurtleArt.tautils import debug_output
 from TurtleArt.taprimitive import Primitive, ArgSlot, ConstantArg
-from TurtleArt.tatype import TYPE_INT, TYPE_FLOAT, TYPE_STRING, TYPE_NUMBER
+from TurtleArt.tatype import TYPE_INT, TYPE_FLOAT, TYPE_STRING, TYPE_NUMBER, TYPE_COLOR
 import logging
 _logger = logging.getLogger('turtleart-activity x11 events plugin')
 
@@ -79,6 +79,23 @@ class X_events(Plugin):
                               help_string=\
                                   _('get the mouse pointer y coordinate'),
                               prim_name='getX11mouseY')
+                              
+        palette.add_block('leftClick',
+                              style='box-style',
+                              label=_('leftClick'),
+                              value_block=True,
+                              help_string=\
+                                  _('click left click'),
+                              prim_name='leftClick')
+                              
+        
+        palette.add_block('rightClick',
+                              style='box-style',
+                              label=_('rightClick'),
+                              value_block=True,
+                              help_string=\
+                                  _('click right click'),
+                              prim_name='rightClick')
 
         palette.add_block('click',
                               style='basic-style-1arg',
@@ -188,6 +205,12 @@ class X_events(Plugin):
             'getX11mouseY', 0,
             Primitive(self.getX11mouseY, TYPE_INT))
         self._parent.lc.def_prim(
+            'leftClick', 0,
+            Primitive(self.leftClick, TYPE_INT))
+        self._parent.lc.def_prim(
+            'rightClick', 0,
+            Primitive(self.rightClick, TYPE_INT))
+        self._parent.lc.def_prim(
             'click', 1,
             Primitive(self.click, arg_descs=[ArgSlot(TYPE_NUMBER)]))
         self._parent.lc.def_prim(
@@ -204,7 +227,7 @@ class X_events(Plugin):
             Primitive(self.releaseButton, arg_descs=[ArgSlot(TYPE_NUMBER)]))
         self._parent.lc.def_prim(
             'setLineColor', 1,
-            Primitive(self.setLineColor, arg_descs=[ArgSlot(TYPE_STRING)]))
+            Primitive(self.setLineColor, arg_descs=[ArgSlot(TYPE_COLOR)]))
             
         self._parent.lc.def_prim(
             'setLineColorRGB', 3,
@@ -248,6 +271,12 @@ class X_events(Plugin):
     def getScreenHeight(self):
         x,y = lib_event.getScreenResolution()
         return y
+        
+    def leftClick(self):
+        return 1
+    
+    def rightClick(self):
+        return 2
 
     def click(self,button):
         lib_event.clickButton(button)
@@ -259,7 +288,7 @@ class X_events(Plugin):
         lib_event.releaseButton(button)
         
     def setLineColor(self, colorName):
-		lib_event.setLineColor(colorName)
+        lib_event.setLineColor(colorName)
 
     def setLineColorRGB(self,red,green,blue):
         lib_event.setLineColorRGB(red,green,blue)
