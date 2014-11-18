@@ -40,6 +40,11 @@ wwin.add_events(gtk.gdk.KEY_PRESS_MASK |
                )
 
 
+def getScreenResolution():
+    d = display.Display()
+    resolution = d.screen().root.get_geometry()
+    return resolution.width, resolution.height
+
 def setLineOpacity(opacity):
     wwin.set_opacity(opacity)
   
@@ -48,13 +53,19 @@ def setLineWidth(width):
     w, h = wwin.get_size()
     print width
     wwin.set_size_request(int(width), wwin.get_screen().get_height())
+    #wwin.set_size_request(int(width), getScreenResolution()[1])
     print wwin.get_size_request()
 
 def setLineHeight(height):
     w, h = wwin.get_size()
     print "height:%s" % height
     wwin.set_size_request(wwin.get_screen().get_width(), int(height))
+    #wwin.set_size_request(getScreenResolution()[0], int(height))
     print wwin.get_size_request()
+    
+def setLineWidthAndHeigth(width, height):
+	wwin.resize(int(width), int(height))
+	print wwin.get_size_request()
 
 def showLine(active):
     if active:
@@ -106,7 +117,7 @@ def createAbsoluteMouseEvent(x,y):
     data = win.get_geometry()
     height = data.height
     win.warp_pointer(x, y)
-    wwin.move(x, yy)
+    wwin.move(x, y)
     wwin.set_keep_above(True);
     dis.sync()
 
@@ -115,10 +126,7 @@ def getMousePosition():
     data = d.screen().root.query_pointer()._data
     return data['root_x'], data['root_y']
 
-def getScreenResolution():
-    d = display.Display()
-    resolution = d.screen().root.get_geometry()
-    return resolution.width, resolution.height
+
 
 def buttonPress(button):
     d = display.Display()

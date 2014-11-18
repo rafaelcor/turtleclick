@@ -31,7 +31,7 @@ from TurtleArt.taprimitive import Primitive, ArgSlot, ConstantArg
 from TurtleArt.tatype import TYPE_INT, TYPE_FLOAT, TYPE_STRING, TYPE_NUMBER, TYPE_COLOR
 import logging
 _logger = logging.getLogger('turtleart-activity x11 events plugin')
-
+from TurtleArt.taconstants import MACROS
 sys.path.append(os.path.abspath('./plugins/x_events'))
 import lib_event
 import Xlib
@@ -152,6 +152,7 @@ class X_events(Plugin):
                               style='basic-style-1arg',
                               label=_('setLineColor'),
                               value_block=True,
+                              default=MACROS,
                               help_string=\
                                   _('set line color'),
                               prim_name='setLineColor')
@@ -192,6 +193,15 @@ class X_events(Plugin):
                               help_string=\
                                   _('height of vertical line over mouse'),
                               prim_name='setLineHeight')
+                              
+        palette.add_block('setLineWidthAndHeigth',
+                              style='basic-style-2arg',
+                              label=_('setLineWidthAndHeigth'),
+                              value_block=True,
+                              default=[0, 0],
+                              help_string=\
+                                  _('set width and height of line over mouse'),
+                              prim_name='setLineWidthAndHeigth')
 
 
         self._parent.lc.def_prim(
@@ -247,6 +257,12 @@ class X_events(Plugin):
         self._parent.lc.def_prim(
             'setLineHeight', 1,
             Primitive(self.setLineHeight, arg_descs=[ArgSlot(TYPE_NUMBER)]))
+            
+        self._parent.lc.def_prim(
+            'setLineWidthAndHeigth', 2,
+            Primitive(self.setLineWidthAndHeigth, arg_descs=[ArgSlot(TYPE_NUMBER),
+													 ArgSlot(TYPE_NUMBER)]))
+        
         self._parent.lc.def_prim(
             'setLineOpacity', 1,
             Primitive(self.setLineOpacity, arg_descs=[ArgSlot(TYPE_NUMBER)]))
@@ -301,6 +317,9 @@ class X_events(Plugin):
 
     def setLineHeight(self,height):
         lib_event.setLineHeight(height)
+    
+    def setLineWidthAndHeigth(self, width, height):
+		lib_event.setLineWidthAndHeigth(width, height)
     
     def setLineOpacity(self, opacity):
         lib_event.setLineOpacity(opacity)
