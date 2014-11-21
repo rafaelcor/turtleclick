@@ -24,22 +24,15 @@ import sys
 from gettext import gettext as _
 
 from plugins.plugin import Plugin
-print -2
 from TurtleArt.tapalette import make_palette
 from TurtleArt.taprimitive import Primitive, ArgSlot
 from TurtleArt.tatype import TYPE_INT
 from TurtleArt.tatype import TYPE_NUMBER
 from TurtleArt.tatype import TYPE_COLOR
-print -1
 import logging
-print 0
 LOGGER = logging.getLogger('turtleart-activity x11 events plugin')
-print 0.1
 sys.path.append(os.path.abspath('./plugins/Xevents'))
-print 0.2
 import plugins.Xevents.lib_event as lib_event
-
-print 1
 
 
 class Xevents(Plugin):
