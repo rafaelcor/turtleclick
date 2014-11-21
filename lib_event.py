@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
-# Andrés Aguirre Dorelo<aaguirre@fing.edu.uy>
-# Rafael Carlos Cordano Ottati<rafael.cordano@gmail.com>
+# Andrés Aguirre Dorelo <aaguirre@fing.edu.uy>
+# Rafael Carlos Cordano Ottati <rafael.cordano@gmail.com>
 # MINA/INCO/UDELAR
 #
 # This program is free software; you can redistribute it and/or modify
@@ -17,159 +17,162 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-from Xlib import X, display, ext, xobject
-from Xlib.ext import record, xtest, shape, xinerama
-from Xlib.xobject import colormap, drawable
-import time
+from plugins.Xevents.Xlib import X
+from plugins.Xevents.Xlib import display
+from plugins.Xevents.Xlib import ext
+from plugins.Xevents.Xlib.ext import record
+from plugins.Xevents.Xlib.ext import xtest
+from plugins.Xevents.Xlib.ext import shape
+from plugins.Xevents.Xlib.ext import xinerama
 import gtk
-
-dis = display.Display()
-scr = dis.screen()
-win = scr.root
-xb, yb = False, False
-wwin = gtk.Window(gtk.WINDOW_POPUP)
-wwin.set_keep_above(True)
-wwin.set_opacity(1)
-color = gtk.gdk.color_parse("#234fdb")
-wwin.modify_bg(gtk.STATE_NORMAL, color)
-wwin.set_decorated(False)
-wwin.add_events(gtk.gdk.KEY_PRESS_MASK |
-               gtk.gdk.POINTER_MOTION_MASK |
-               gtk.gdk.BUTTON_PRESS_MASK |
-               gtk.gdk.SCROLL_MASK
-               )
+DISPLAY = display.Display()
+SCREEN = DISPLAY.screen()
+XWINDOW = SCREEN.root
+XB, YB = False, False
+WINDOW = gtk.Window(gtk.WINDOW_POPUP)
+WINDOW.set_keep_above(True)
+WINDOW.set_opacity(1)
+COLOR = gtk.gdk.color_parse("#234fdb")
+WINDOW.modify_bg(gtk.STATE_NORMAL, COLOR)
+WINDOW.set_decorated(False)
+WINDOW.add_events(gtk.gdk.KEY_PRESS_MASK |
+                  gtk.gdk.POINTER_MOTION_MASK |
+                  gtk.gdk.BUTTON_PRESS_MASK |
+                  gtk.gdk.SCROLL_MASK)
 
 
-def getScreenResolution():
-    d = display.Display()
-    resolution = d.screen().root.get_geometry()
+def get_screen_resolution():
+    ddisplay = display.Display()
+    resolution = ddisplay.screen().root.get_geometry()
     return resolution.width, resolution.height
 
-def setLineOpacity(opacity):
-    wwin.set_opacity(opacity)
-  
 
-def setLineWidth(width):
-    w, h = wwin.get_size()
+def set_line_opacity(opacity):
+    WINDOW.set_opacity(opacity)
+
+
+def set_line_width(width):
+    # w, h = wwin.get_size()
     print width
-    wwin.set_size_request(int(width), wwin.get_screen().get_height())
-    #wwin.set_size_request(int(width), getScreenResolution()[1])
-    print wwin.get_size_request()
+    WINDOW.set_size_request(int(width), WINDOW.get_screen().get_height())
+    print WINDOW.get_size_request()
 
-def setLineHeight(height):
-    w, h = wwin.get_size()
+
+def set_line_height(height):
+    # w, h = wwin.get_size()
     print "height:%s" % height
-    wwin.set_size_request(wwin.get_screen().get_width(), int(height))
-    #wwin.set_size_request(getScreenResolution()[0], int(height))
-    print wwin.get_size_request()
-    
-def setLineWidthAndHeigth(width, height):
-	wwin.resize(int(width), int(height))
-	print wwin.get_size_request()
+    WINDOW.set_size_request(WINDOW.get_screen().get_width(), int(height))
+    print WINDOW.get_size_request()
 
-def showLine(active):
+
+def set_line_width_and_heigth(width, height):
+    WINDOW.resize(int(width), int(height))
+    print WINDOW.get_size_request()
+
+
+def show_line(active):
     if active:
-        wwin.show()
+        WINDOW.show()
     else:
-        wwin.hide()
+        WINDOW.hide()
 
-#### Trying to use color blocks
-def setLineColor(colorName):
-    print colorName.get_number_name()
-    colorsNames = {"red": "#E61B00",
-                   "orange": "#FF9201",
-                   "yellow": "#FFE900",
-                   "green": "#0FEF1E",
-                   "cyan": "#0EF5EE",
-                   "blue": "#0000FF",
-                   "purple": "#C61DCC",
-                   "white": "#FFFFFF",
-                   "black": "#000000"}
-    
-    color = gtk.gdk.color_parse(colorsNames[colorName.get_number_name()])
-    wwin.modify_bg(gtk.STATE_NORMAL, color)
+# Trying to use color blocks
+
+
+def set_line_color(color_name):
+    print color_name.get_number_name()
+    colors_names = {"red": "#E61B00",
+                    "orange": "#FF9201",
+                    "yellow": "#FFE900",
+                    "green": "#0FEF1E",
+                    "cyan": "#0EF5EE",
+                    "blue": "#0000FF",
+                    "purple": "#C61DCC",
+                    "white": "#FFFFFF",
+                    "black": "#000000"}
+
+    ccolor = gtk.gdk.color_parse(colors_names[color_name.get_number_name()])
+    WINDOW.modify_bg(gtk.STATE_NORMAL, ccolor)
 ####
 
-def setLineColorRGB(red, green, blue):
-    global color
+
+def set_line_color_rgb(red, green, blue):
     print red
     print green
     print blue
-    r = hex(int(red))
-    rh = "%s" % r.split("x")[1]
-    g = hex(int(green))
-    gh = "%s" % g.split("x")[1]
-    b = hex(int(blue))
-    bh = "%s" % b.split("x")[1]
-    chex = "#%s%s%s"%(rh, gh, bh)
-    color = gtk.gdk.color_parse(chex)
-    wwin.modify_bg(gtk.STATE_NORMAL, color)
+    red_hex = "%s" % hex(int(red)).split("x")[1]
+    green_hex = "%s" % hex(int(green)).split("x")[1]
+    blue_hex = "%s" % hex(int(blue)).split("x")[1]
+    chex = "#%s%s%s" % (red_hex, green_hex, blue_hex)
+    ccolor = gtk.gdk.color_parse(chex)
+    WINDOW.modify_bg(gtk.STATE_NORMAL, ccolor)
 
 
-def createRelativeMouseEvent(deltaX, deltaY):
-    d = display.Display()
-    #move pointer to set relative location
-    d.warp_pointer(deltaX,deltaY)
-    d.sync()
+def create_relative_mouse_event(deltax, deltay):
+    ddisplay = display.Display()
+    # move pointer to set relative location
+    ddisplay.warp_pointer(deltax, deltay)
+    ddisplay.sync()
 
-def createAbsoluteMouseEvent(x,y):
-    (xx, yy) = wwin.get_position()
-    data = win.get_geometry()
-    height = data.height
-    win.warp_pointer(x, y)
-    wwin.move(x, y)
-    wwin.set_keep_above(True);
-    dis.sync()
 
-def getMousePosition():
-    d = display.Display()
-    data = d.screen().root.query_pointer()._data
+def create_absolute_mouse_event(xcoord, ycoord):
+    XWINDOW.warp_pointer(xcoord, ycoord)
+    WINDOW.move(xcoord, ycoord)
+    WINDOW.set_keep_above(True)
+    DISPLAY.sync()
+
+
+def get_mouse_position():
+    ddisplay = display.Display()
+    data = ddisplay.screen().root.query_pointer()._data
     return data['root_x'], data['root_y']
 
 
+def button_press(button):
+    ddisplay = display.Display()
+    ext.xtest.fake_input(ddisplay, X.ButtonPress, button)
+    ddisplay.sync()
 
-def buttonPress(button):
-    d = display.Display()
-    ext.xtest.fake_input(d,X.ButtonPress,button)
-    d.sync()
 
-def buttonRelease(button):
-    d = display.Display()
-    ext.xtest.fake_input(d,X.ButtonRelease,button)
-    d.sync()
+def button_release(button):
+    ddisplay = display.Display()
+    ext.xtest.fake_input(ddisplay, X.ButtonRelease, button)
+    ddisplay.sync()
 
-def clickButton(button):
-    
-    x,y = getMousePosition()
-    win.warp_pointer(x - 20, y)
-    wwin.set_keep_above(False)
-    wwin.set_keep_below(True)
 
-    d = display.Display()
-    #press button 1, for middle mouse button use 2, for opposite button use 3
-    wwin.destroy()
-    ext.xtest.fake_input(d,X.ButtonPress,button)
-    d.sync()
-    #to make click we need to release the same button
-    ext.xtest.fake_input(d, X.ButtonRelease,button)
-    d.sync()
+def click_button(button):
+    xcoord, ycoord = get_mouse_position()
+    XWINDOW.warp_pointer(xcoord - 20, ycoord)
+    WINDOW.set_keep_above(False)
+    WINDOW.set_keep_below(True)
 
-    ext.xtest.fake_input(d,X.ButtonPress,button)
-    d.sync()
+    ddisplay = display.Display()
+    # press button 1, for middle mouse button use 2, for opposite button use 3
+    WINDOW.destroy()
+    ext.xtest.fake_input(ddisplay, X.ButtonPress, button)
+    ddisplay.sync()
+    # to make click we need to release the same button
+    ext.xtest.fake_input(ddisplay, X.ButtonRelease, button)
+    ddisplay.sync()
 
-    ext.xtest.fake_input(d,X.ButtonRelease,button)
-    d.sync()
-    
+    ext.xtest.fake_input(ddisplay, X.ButtonPress, button)
+    ddisplay.sync()
+
+    ext.xtest.fake_input(ddisplay, X.ButtonRelease, button)
+    ddisplay.sync()
 ####
-def pressButton(button):
-    d = display.Display()
-    #press button 1, for middle mouse button use 2, for opposite button use 3
-    ext.xtest.fake_input(d,X.ButtonPress,button)
-    d.sync()
 
-def releaseButton(button):
-    d = display.Display()
-    #to make click we need to release the same button
-    ext.xtest.fake_input(d, X.ButtonRelease,button)
-    d.sync()
+
+def press_button(button):
+    ddisplay = display.Display()
+    # press button 1, for middle mouse button use 2, for opposite button use 3
+    ext.xtest.fake_input(ddisplay, X.ButtonPress, button)
+    ddisplay.sync()
+
+
+def release_button(button):
+    ddisplay = display.Display()
+    # to make click we need to release the same button
+    ext.xtest.fake_input(ddisplay, X.ButtonRelease, button)
+    ddisplay.sync()
 ####
