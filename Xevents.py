@@ -204,8 +204,8 @@ class Xevents(Plugin):
             'get_x11_mouse_x', 0,
             Primitive(self.get_x11_mouse_x, TYPE_INT))
         self._parent.lc.def_prim(
-            'get_x11_mouse_x', 0,
-            Primitive(self.get_x11_mouse_x, TYPE_INT))
+            'get_x11_mouse_y', 0,
+            Primitive(self.get_x11_mouse_y, TYPE_INT))
         self._parent.lc.def_prim(
             'left_click', 0,
             Primitive(lambda x: 1, TYPE_INT))

@@ -25,6 +25,7 @@ from plugins.Xevents.Xlib.ext import xtest
 from plugins.Xevents.Xlib.ext import shape
 from plugins.Xevents.Xlib.ext import xinerama
 import gtk
+
 DISPLAY = display.Display()
 SCREEN = DISPLAY.screen()
 XWINDOW = SCREEN.root
@@ -115,17 +116,17 @@ def create_relative_mouse_event(deltax, deltay):
     ddisplay.sync()
 
 
+def get_mouse_position():
+    ddisplay = display.Display()
+    data = ddisplay.screen().root.query_pointer()._data
+    return data['root_x'], data['root_y']
+
+
 def create_absolute_mouse_event(xcoord, ycoord):
     XWINDOW.warp_pointer(xcoord, ycoord)
     WINDOW.move(xcoord, ycoord)
     WINDOW.set_keep_above(True)
     DISPLAY.sync()
-
-
-def get_mouse_position():
-    ddisplay = display.Display()
-    data = ddisplay.screen().root.query_pointer()._data
-    return data['root_x'], data['root_y']
 
 
 def button_press(button):
@@ -142,7 +143,8 @@ def button_release(button):
 
 def click_button(button):
     xcoord, ycoord = get_mouse_position()
-    XWINDOW.warp_pointer(xcoord - 20, ycoord)
+    #XWINDOW.warp_pointer(xcoord - 20, ycoord)
+    XWINDOW.warp_pointer(xcoord, ycoord)
     WINDOW.set_keep_above(False)
     WINDOW.set_keep_below(True)
 
