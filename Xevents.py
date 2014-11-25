@@ -138,6 +138,14 @@ class Xevents(Plugin):
                           help_string=_('releases button'),
                           prim_name='release_button')
 
+        palette.add_block('freeze',
+                          style='basic-style-1arg',
+                          label=_('freeze'),
+                          value_block=True,
+                          default=[0],
+                          help_string=_('freeze bar'),
+                          prim_name='freeze')
+
         palette.add_block('setLineColorRGB',
                           style='basic-style-3arg',
                           label=_('setLineColorRGB'),
@@ -145,6 +153,7 @@ class Xevents(Plugin):
                           default=[0, 0, 0],
                           help_string=_('set line color from rgb value'),
                           prim_name='set_line_color_rgb')
+
         palette.add_block('setLineColor',
                           style='basic-style-1arg',
                           label=_('setLineColor'),
@@ -236,7 +245,12 @@ class Xevents(Plugin):
         self._parent.lc.def_prim(
             'set_line_color', 1,
             Primitive(self.set_line_color, arg_descs=[ArgSlot(TYPE_COLOR)]))
-
+        """
+        self.parent.lc.def_prim(
+            'freeze', 1,
+            Primitive(self.freeze, arg_descs=[ArgSlot(TYPE_INT)])
+        )
+        """
         self._parent.lc.def_prim(
             'set_line_color_rgb', 3,
             Primitive(self.set_line_color_rgb,

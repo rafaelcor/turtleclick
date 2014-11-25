@@ -41,6 +41,8 @@ WINDOW.add_events(gtk.gdk.KEY_PRESS_MASK |
                   gtk.gdk.BUTTON_PRESS_MASK |
                   gtk.gdk.SCROLL_MASK)
 
+STOPPED = 0
+
 
 def get_screen_resolution():
     ddisplay = display.Display()
@@ -78,6 +80,9 @@ def show_line(active):
         WINDOW.hide()
 
 # Trying to use color blocks
+
+def freeze(arg):
+    STOPPED = arg
 
 
 def set_line_color(color_name):
@@ -124,8 +129,11 @@ def get_mouse_position():
 
 def create_absolute_mouse_event(xcoord, ycoord):
     XWINDOW.warp_pointer(xcoord, ycoord)
-    WINDOW.move(xcoord, ycoord)
-    WINDOW.set_keep_above(True)
+    if STOPPED != 1:
+        WINDOW.move(xcoord, ycoord)
+        WINDOW.set_keep_above(True)
+    else:
+        pass
     DISPLAY.sync()
 
 
