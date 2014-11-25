@@ -81,6 +81,7 @@ def show_line(active):
 
 # Trying to use color blocks
 
+
 def freeze(arg):
     STOPPED = arg
 

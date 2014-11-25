@@ -246,9 +246,9 @@ class Xevents(Plugin):
             'set_line_color', 1,
             Primitive(self.set_line_color, arg_descs=[ArgSlot(TYPE_COLOR)]))
 
-        self.parent.lc.def_prim(
+        self._parent.lc.def_prim(
             'freeze', 1,
-            Primitive(lambda x: lib_event.freeze(x),
+            Primitive(lambda tt, x: lib_event.freeze(x),
                       arg_descs=[ArgSlot(TYPE_INT)])
         )
 
