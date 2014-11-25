@@ -245,12 +245,13 @@ class Xevents(Plugin):
         self._parent.lc.def_prim(
             'set_line_color', 1,
             Primitive(self.set_line_color, arg_descs=[ArgSlot(TYPE_COLOR)]))
-        """
+
         self.parent.lc.def_prim(
             'freeze', 1,
-            Primitive(self.freeze, arg_descs=[ArgSlot(TYPE_INT)])
+            Primitive(lambda x: lib_event.freeze(x),
+                      arg_descs=[ArgSlot(TYPE_INT)])
         )
-        """
+
         self._parent.lc.def_prim(
             'set_line_color_rgb', 3,
             Primitive(self.set_line_color_rgb,
