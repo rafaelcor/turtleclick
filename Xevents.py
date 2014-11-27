@@ -2,6 +2,10 @@
 # -*- coding: utf-8 -*-
 # Andrés Aguirre Dorelo <aaguirre@fing.edu.uy>
 # Rafael Carlos Cordano Ottati <rafael.cordano@gmail.com>
+# Lucía Carozzi <lucia.carozzi@gmail.com>
+# Maria Eugenia Curi <mauge8@gmail.com>
+# Leonel Peña lapo26@gmail.com
+#
 # MINA/INCO/UDELAR
 #
 # This program is free software; you can redistribute it and/or modify

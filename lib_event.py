@@ -2,6 +2,10 @@
 # -*- coding: utf-8 -*-
 # Andrés Aguirre Dorelo <aaguirre@fing.edu.uy>
 # Rafael Carlos Cordano Ottati <rafael.cordano@gmail.com>
+# Lucía Carozzi <lucia.carozzi@gmail.com>
+# Maria Eugenia Curi <mauge8@gmail.com>
+# Leonel Peña lapo26@gmail.com
+#
 # MINA/INCO/UDELAR
 #
 # This program is free software; you can redistribute it and/or modify
@@ -163,7 +167,6 @@ def click_button(button):
 
     ext.xtest.fake_input(ddisplay, X.ButtonRelease, button)
     ddisplay.sync()
-####
 
 
 def press_button(button):
@@ -178,4 +181,4 @@ def release_button(button):
     # to make click we need to release the same button
     ext.xtest.fake_input(ddisplay, X.ButtonRelease, button)
     ddisplay.sync()
-####
+    
