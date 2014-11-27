@@ -44,7 +44,7 @@ class Xevents(Plugin):
         self._status = True
         self.pause = 0
             
-    def freeze(self, arg):
+    def setPause(self, arg):
         self.pause = arg
 
     def getPause(self):
@@ -254,7 +254,7 @@ class Xevents(Plugin):
             Primitive(self.set_line_color, arg_descs=[ArgSlot(TYPE_COLOR)]))
         self._parent.lc.def_prim(
             'freeze', 1,
-            Primitive(self.freeze, arg_descs=[ArgSlot(TYPE_INT)]))
+            Primitive(self.setPause, arg_descs=[ArgSlot(TYPE_INT)]))
         self._parent.lc.def_prim(
             'set_line_color_rgb', 3,
             Primitive(self.set_line_color_rgb,
@@ -288,7 +288,7 @@ class Xevents(Plugin):
     # Block primitives
 
     def set_x11_mouse(self, xcoord, ycoord):
-        lib_event.create_absolute_mouse_event(int(xcoord), int(ycoord), self.pause)
+        lib_event.create_absolute_mouse_event(int(xcoord), int(ycoord), self.getPause())
         
     @staticmethod
     def get_x11_mouse_x():
