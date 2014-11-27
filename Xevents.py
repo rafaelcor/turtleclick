@@ -147,7 +147,7 @@ class Xevents(Plugin):
 
         palette.add_block('freeze',
                           style='basic-style-1arg',
-                          label=_('freeze'),
+                          label=_('freeze bar'),
                           value_block=True,
                           default=[0],
                           help_string=_('freeze the bar'),
