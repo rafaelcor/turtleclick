@@ -42,7 +42,14 @@ class Xevents(Plugin):
         self._parent = parent
         self.running_sugar = self._parent.running_sugar
         self._status = True
+        self.pause = 0
+            
+    def freeze(self, arg):
+        self.pause = arg
 
+    def getPause(self):
+        return self.pause
+        
     def setup(self):
         # set up X11 events specific blocks
         palette = make_palette('xlib-bots',
@@ -143,7 +150,7 @@ class Xevents(Plugin):
                           label=_('freeze'),
                           value_block=True,
                           default=[0],
-                          help_string=_('freeze bar'),
+                          help_string=_('freeze the bar'),
                           prim_name='freeze')
 
         palette.add_block('setLineColorRGB',
@@ -245,13 +252,9 @@ class Xevents(Plugin):
         self._parent.lc.def_prim(
             'set_line_color', 1,
             Primitive(self.set_line_color, arg_descs=[ArgSlot(TYPE_COLOR)]))
-
         self._parent.lc.def_prim(
             'freeze', 1,
-            Primitive(lambda tt, x: lib_event.freeze(x),
-                      arg_descs=[ArgSlot(TYPE_INT)])
-        )
-
+            Primitive(self.freeze, arg_descs=[ArgSlot(TYPE_INT)]))
         self._parent.lc.def_prim(
             'set_line_color_rgb', 3,
             Primitive(self.set_line_color_rgb,
@@ -283,10 +286,10 @@ class Xevents(Plugin):
                       arg_descs=[ArgSlot(TYPE_NUMBER)]))
 
     # Block primitives
-    @staticmethod
-    def set_x11_mouse(xcoord, ycoord):
-        lib_event.create_absolute_mouse_event(int(xcoord), int(ycoord))
 
+    def set_x11_mouse(self, xcoord, ycoord):
+        lib_event.create_absolute_mouse_event(int(xcoord), int(ycoord), self.pause)
+        
     @staticmethod
     def get_x11_mouse_x():
         xcoord = lib_event.get_mouse_position()[0]
