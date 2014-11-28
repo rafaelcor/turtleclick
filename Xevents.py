@@ -4,7 +4,7 @@
 # Rafael Carlos Cordano Ottati <rafael.cordano@gmail.com>
 # Lucía Carozzi <lucia.carozzi@gmail.com>
 # Maria Eugenia Curi <mauge8@gmail.com>
-# Leonel Peña lapo26@gmail.com
+# Leonel Peña <lapo26@gmail.com>
 #
 # MINA/INCO/UDELAR
 #
@@ -47,13 +47,13 @@ class Xevents(Plugin):
         self.running_sugar = self._parent.running_sugar
         self._status = True
         self.pause = 0
-            
+
     def setPause(self, arg):
         self.pause = arg
 
     def getPause(self):
         return self.pause
-        
+
     def setup(self):
         # set up X11 events specific blocks
         palette = make_palette('xlib-bots',
@@ -293,7 +293,7 @@ class Xevents(Plugin):
 
     def set_x11_mouse(self, xcoord, ycoord):
         lib_event.create_absolute_mouse_event(int(xcoord), int(ycoord), self.getPause())
-        
+
     @staticmethod
     def get_x11_mouse_x():
         xcoord = lib_event.get_mouse_position()[0]

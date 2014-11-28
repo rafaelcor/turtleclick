@@ -4,7 +4,7 @@
 # Rafael Carlos Cordano Ottati <rafael.cordano@gmail.com>
 # Lucía Carozzi <lucia.carozzi@gmail.com>
 # Maria Eugenia Curi <mauge8@gmail.com>
-# Leonel Peña lapo26@gmail.com
+# Leonel Peña <lapo26@gmail.com>
 #
 # MINA/INCO/UDELAR
 #
@@ -148,14 +148,18 @@ def button_release(button):
 
 def click_button(button):
     xcoord, ycoord = get_mouse_position()
-    #XWINDOW.warp_pointer(xcoord - 20, ycoord)
-    XWINDOW.warp_pointer(xcoord, ycoord)
+    XWINDOW.warp_pointer(xcoord - 20, ycoord)
+    #XWINDOW.warp_pointer(xcoord, ycoord)
     WINDOW.set_keep_above(False)
     WINDOW.set_keep_below(True)
 
     ddisplay = display.Display()
     # press button 1, for middle mouse button use 2, for opposite button use 3
-    WINDOW.destroy()
+    try:
+        WINDOW.destroy()
+        print "destroyed"
+    except:
+        print "not destroyed"
     ext.xtest.fake_input(ddisplay, X.ButtonPress, button)
     ddisplay.sync()
     # to make click we need to release the same button
@@ -181,4 +185,4 @@ def release_button(button):
     # to make click we need to release the same button
     ext.xtest.fake_input(ddisplay, X.ButtonRelease, button)
     ddisplay.sync()
-    
+
